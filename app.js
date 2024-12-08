@@ -33,9 +33,9 @@ app.get('/', (req, res) => {
 const authRoute = require('./routes/auth');
 // Use the auth route
 // Public authentication routes
-app.use('/auth', authRoute);
+app.use('/api/auth', authRoute);
 // Protected posts routes
-app.use('/posts', postsRoute);
+app.use('/api/posts', postsRoute);
 
 // 7. MongoDB Connection
 const MURL = process.env.MURL;

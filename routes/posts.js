@@ -3,6 +3,20 @@ const router = express.Router();
 const Post = require('../models/Post'); // Post model
 const auth = require('../middleware/verifyToken'); // Authentication middleware
 
+/*
+// Create a route to test posts:
+router.get('/', (req,res) => {
+    // a response is issued by the server
+    res.send('You are in Posts!')
+})
+
+// POST (Create data) for test posts:
+router.post('/',async(req,res)=>{
+    // print data from user:
+    console.log(req.body)
+})
+*/
+
 // 1. Create a new post
 router.post('/', auth, async (req, res) => {
     const { title, body, topic, expirationTime } = req.body;
@@ -17,7 +31,7 @@ router.post('/', auth, async (req, res) => {
             title,
             body,
             topic,
-            expirationTime: new Date(Date.now() + expirationTime * 60 * 1000), // Expiration in minutes
+            expirationTime: new Date(req.body.expirationTime), // Expiration in minutes
             owner: req.user._id, // User ID from the auth middleware
             status: 'Live',
         });
@@ -25,9 +39,11 @@ router.post('/', auth, async (req, res) => {
         const savedPost = await post.save();
         res.status(201).json(savedPost);
     } catch (err) {
+        console.error('Error creating post:', error);
         res.status(500).json({ message: 'Error creating post.', error: err.message });
     }
 });
+
 
 // 2. Retrieve posts by topic
 router.get('/:topic', auth, async (req, res) => {

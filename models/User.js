@@ -34,15 +34,18 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+/**
+// Commenting out the hashing logic
 // Pre-save hook to hash the password before saving the user
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
-        const bcrypt = require('bcrypt'); // Import bcrypt only when needed
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
+        const bcryptjs = require('bcryptjs'); // Import bcrypt only when needed
+        const salt = await bcryptjs.genSalt(10);
+        this.password = await bcryptjs.hash(this.password, salt);
     }
     next();
 });
+*/
 
 // Export the User model
 module.exports = mongoose.model('User', userSchema); // Changed model name to 'User' for clarity

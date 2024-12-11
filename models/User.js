@@ -48,4 +48,4 @@ userSchema.pre('save', async function (next) {
 */
 
 // Export the User model
-module.exports = mongoose.model('User', userSchema); // Changed model name to 'User' for clarity
+module.exports = mongoose.model('User', userSchema);
